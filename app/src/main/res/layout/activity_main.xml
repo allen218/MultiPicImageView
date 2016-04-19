@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.mac.multipicimageview.MultiPicImageView
+        android:id="@+id/iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:background="#c0c0c0" />
+
+    <Button
+        android:id="@+id/four_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4张图片" />
+
+    <Button
+        android:id="@+id/five_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/four_btn"
+        android:text="5张图片" />
+
+    <Button
+        android:id="@+id/six_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/five_btn"
+        android:text="6张图片" />
+
+    <Button
+        android:id="@+id/nine_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/six_btn"
+        android:text="9张图片" />
+</RelativeLayout>
