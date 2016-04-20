@@ -50,7 +50,7 @@ public class MultiPicImageView extends View {
     private void transformImgSize() {
         mTransformBitmaps = new ArrayList<>();
         if (mBitmapList.size() > 1) {
-            if (mBitmapList.size() == 4) {
+            if (mBitmapList.size() <= 4) {
                 transformWidth = ((float) mWidth) / 2;
                 transformHeight = ((float) mHeight) / 2;
                 bitmapTransformWidth = ((float) (mWidth - INTERVAL * 3)) / 2;
@@ -66,6 +66,9 @@ public class MultiPicImageView extends View {
         } else {
             transformWidth = mWidth;
             transformHeight = mHeight;
+            bitmapTransformWidth = mWidth;
+            bitmapTransformHeight = mHeight;
+            currentLineShowNum = 1;
         }
 
         for (int x = 0; x < mBitmapList.size(); x++) {
@@ -134,40 +137,68 @@ public class MultiPicImageView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (mBitmapList != null) {
+
+            //要先移动canvas
+            moveCanvas(canvas);
+
             for (int x = 0; x < mBitmapList.size(); x++) {
                 int xScale = x % currentLineShowNum;
                 int yScale = x / currentLineShowNum;
-                float xHeader = 0;
-                float yHeader = 0;
-                if (xScale == 0) {
-                    xHeader = INTERVAL;
-                }
-                if (yScale == 0) {
-                    yHeader = INTERVAL;
+
+                float left = 0;
+                float top = 0;
+
+                //这里的判断主要是区分当图片为1张时,不需要移动边距的问题
+                if (mBitmapList.size() == 1) {
+                    left = xScale * bitmapTransformWidth;
+                    top = yScale * bitmapTransformHeight;
+                } else if ((mBitmapList.size() == 5 && x >= 3)) {
+                    //处理图片为5的显示
+                    if (x == 3) {
+                        left = xScale * bitmapTransformWidth - INTERVAL * (xScale + 1) / 2
+                                + (mWidth - bitmapTransformWidth * 2) / 2;
+                        top = yScale * bitmapTransformHeight + INTERVAL * (yScale + 1);
+                    } else {
+                        left = xScale * bitmapTransformWidth + INTERVAL * (xScale + 1) / 2
+                                + (mWidth - bitmapTransformWidth * 2) / 2;
+                        top = yScale * bitmapTransformHeight + INTERVAL * (yScale + 1);
+                    }
+
+                } else if (mBitmapList.size() < 4) {
+                    if (mBitmapList.size() == 3 && x == 0) {
+                        left = xScale * bitmapTransformWidth + (mWidth - bitmapTransformWidth) / 2;
+                        top = yScale * bitmapTransformHeight + INTERVAL * (yScale + 1);
+                    } else if (mBitmapList.size() == 2) {
+
+                        left = xScale * bitmapTransformWidth + INTERVAL * (xScale + 1);
+                        top = yScale * bitmapTransformHeight + INTERVAL * (yScale + 1);
+
+                    } else {
+                        left = xScale * bitmapTransformWidth + INTERVAL * (xScale + 1);
+                        top = bitmapTransformHeight + INTERVAL * 2;
+                    }
+
+                } else {
+                    left = xScale * bitmapTransformWidth + INTERVAL * (xScale + 1);
+                    top = yScale * bitmapTransformHeight + INTERVAL * (yScale + 1);
                 }
 
-                canvas.drawBitmap(mTransformBitmaps.get(x), xScale * bitmapTransformWidth + INTERVAL * (xScale + 1),
-                        yScale * bitmapTransformWidth + INTERVAL * (yScale + 1), mPaint);
+                canvas.drawBitmap(mTransformBitmaps.get(x), left,
+                        top, mPaint);
 
-               /* canvas.drawLine(xScale * bitmapTransformWidth + INTERVAL * (xScale + 1),
-                        yScale * bitmapTransformWidth + INTERVAL * (yScale + 1),
-                        xScale * bitmapTransformWidth + INTERVAL * (xScale + 1),
-                        bitmapTransformHeight, mPaint
-                );*/
             }
-            moveCanvas(canvas);
         }
 
     }
 
     private void moveCanvas(Canvas canvas) {
-        if (mBitmapList.size() > 6) {
+        if (mBitmapList.size() > 6 || mBitmapList.size() == 4) {
             //不需要移动
         } else if (mBitmapList.size() > 3) {
             //少一行
             canvas.translate(0, mHeight / 3 / 2);
-        } else if (mBitmapList.size() > 1) {
-            canvas.translate(0, mHeight / 3);
+        } else if (mBitmapList.size() == 2) {
+            canvas.translate(0, (mHeight - bitmapTransformHeight) / 2);
         }
 
     }

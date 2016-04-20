@@ -6,15 +6,37 @@
 
     <com.example.mac.multipicimageview.MultiPicImageView
         android:id="@+id/iv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerInParent="true"
         android:background="#c0c0c0" />
+
+    <Button
+        android:id="@+id/one_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1张图片" />
+
+    <Button
+        android:id="@+id/two_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/one_btn"
+        android:text="2张图片" />
+
+    <Button
+
+        android:id="@+id/three_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/two_btn"
+        android:text="3张图片" />
 
     <Button
         android:id="@+id/four_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/three_btn"
         android:text="4张图片" />
 
     <Button

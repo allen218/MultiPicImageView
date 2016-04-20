@@ -3,7 +3,6 @@ package com.example.mac.multipicimageview;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
@@ -18,6 +17,15 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     private MultiPicImageView mPic;
 
+    @Bind(R.id.one_btn)
+    Button one_btn;
+
+    @Bind(R.id.two_btn)
+    Button two_btn;
+
+    @Bind(R.id.three_btn)
+    Button three_btn;
+
     @Bind(R.id.four_btn)
     Button four_btn;
 
@@ -29,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.nine_btn)
     Button nine_btn;
+
 
     private List<Bitmap> mBitmapList;
 
@@ -51,10 +60,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRxBinding() {
+        RxView.clicks(one_btn).subscribe(this::clickOneBtn);
+        RxView.clicks(two_btn).subscribe(this::clickTwoBtn);
+        RxView.clicks(three_btn).subscribe(this::clickThreeBtn);
         RxView.clicks(four_btn).subscribe(this::clickFourBtn);
         RxView.clicks(five_btn).subscribe(this::clickFiveBtn);
         RxView.clicks(six_btn).subscribe(this::clickSixBtn);
         RxView.clicks(nine_btn).subscribe(this::clickNineBtn);
+    }
+
+    /**
+     * 点击1张图片
+     *
+     * @param oVoid
+     */
+    private void clickOneBtn(Void oVoid) {
+        createShowData(1);
+    }
+
+    /**
+     * 点击2张图片
+     *
+     * @param oVoid
+     */
+    private void clickTwoBtn(Void oVoid) {
+        createShowData(2);
+    }
+
+    /**
+     * 点击3张图片
+     *
+     * @param oVoid
+     */
+    private void clickThreeBtn(Void oVoid) {
+        createShowData(3);
     }
 
     /**
@@ -105,12 +144,11 @@ public class MainActivity extends AppCompatActivity {
     private void createShowData(int num) {
         if (mBitmapList == null) {
             mBitmapList = new ArrayList<>();
+        }
+        if (mBitmapList.size() > num) {
+            removeListData(mBitmapList, num);
         } else {
-            if (mBitmapList.size() > num) {
-                removeListData(mBitmapList, num);
-            } else {
-                addListData(mBitmapList, num);
-            }
+            addListData(mBitmapList, num);
         }
         mPic.addImg(mBitmapList);
     }
@@ -140,42 +178,5 @@ public class MainActivity extends AppCompatActivity {
         for (int x = mBitmapList.size(); x < end; x++) {
             mBitmapList.add(BitmapFactory.decodeResource(getResources(), R.drawable.a2));
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initData();
-    }
-
-    private void initData() {
-        /*final List<Bitmap> mData = createData();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                mPic.addImg(mData);
-
-            }
-        }).start();*/
-    }
-
-    @NonNull
-    private List<Bitmap> createData() {
-        final List<Bitmap> mData = new ArrayList<>();
-        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a2));
-        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a3));
-        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a4));
-        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a5));
-//        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a6));
-//        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a7));
-//        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a8));
-//        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a9));
-//        mData.add(BitmapFactory.decodeResource(getResources(), R.drawable.a10));
-        return mData;
     }
 }
