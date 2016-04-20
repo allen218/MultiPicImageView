@@ -121,9 +121,12 @@ public class MainActivity extends AppCompatActivity {
      * @param mBitmapList
      * @param end
      */
+    private int mBitListNum;
+
     private void removeListData(List<Bitmap> mBitmapList, int end) {
-        for (int x = end; x < mBitmapList.size(); x++) {
-            mBitmapList.remove(x);
+        mBitListNum = mBitmapList.size();
+        for (int x = end; x < mBitListNum; x++) {
+            mBitmapList.remove(mBitmapList.size() - 1);
         }
     }
 
